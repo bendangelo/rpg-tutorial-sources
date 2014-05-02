@@ -8,4 +8,8 @@ class MapData {
     public var middleMap:Array<Array<Int>>;
     public var topMap:Array<Array<Int>>;
 
+    public function new(){
+
+    }
+
 }

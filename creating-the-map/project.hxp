@@ -13,7 +13,7 @@ class Project extends HXProject {
         app.main = "Main";
         app.path = "export";
         app.file = "CreatingTheMap";
-        window.width = 240;
+        window.width = 320;
         window.height = 240;
 
         sources.push("source");

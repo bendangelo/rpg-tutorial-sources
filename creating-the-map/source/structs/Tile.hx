@@ -9,6 +9,8 @@ class Tile {
 
     private var _tileData:TileData;
 
+    public var tileData(get, set):TileData;
+
     public function new() {
         bitmap = new Bitmap();
     }
@@ -17,9 +19,11 @@ class Tile {
         _tileData = tileData;
 
         bitmap.bitmapData = tileData.bitmapData;
+
+        return _tileData;
     }
 
-    public function get_tileData():TileData {
+    public function get_tileData() {
         return _tileData;
     }
 

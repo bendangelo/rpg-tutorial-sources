@@ -11,6 +11,8 @@ class TileLayer extends Sprite {
 
     private var _tiles:Array<Array<Tile>>;
 
+    public var tilesheet(get, never):Tilesheet;
+
     public function new(tilesheet:Tilesheet){
         super();
         _tilesheet = tilesheet;
@@ -19,7 +21,6 @@ class TileLayer extends Sprite {
     public function setMap(map:Array<Array<Int>>) {
         _tiles = new Array<Array<Tile>>();
 
-        // create drawlist based on map
         for(y in 0...map.length){
             _tiles[y] = new Array<Tile>();
 
@@ -31,6 +32,8 @@ class TileLayer extends Sprite {
                 _tiles[y][x] = tile;
 
                 setTile(x, y, map[y][x]);
+
+                addChild(tile.bitmap);
             }
         }
     }
