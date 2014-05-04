@@ -1,0 +1,26 @@
+import project.*;
+
+class Project extends HXProject {
+
+    public function new () {
+
+        super ();
+
+        meta.title = "Creating The Map";
+        meta.packageName = "me.bendangelo.creatingTheMap";
+        meta.version = "1.0.0";
+
+        app.main = "Main";
+        app.path = "export";
+        app.file = "CreatingTheMap";
+        window.width = 320;
+        window.height = 240;
+
+        sources.push("source");
+
+        haxelibs.push(new Haxelib("openfl"));
+
+        includeAssets ("../assets", "assets", [ "*" ]);
+    }
+
+}
