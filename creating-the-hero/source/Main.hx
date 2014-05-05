@@ -3,10 +3,13 @@ package;
 import displays.TileLayer;
 import flash.display.BitmapData;
 import flash.display.Sprite;
+import structs.GameObject;
 import stores.Tilesheet;
 import stores.EntityStore;
 import datas.Portal;
 import displays.Map;
+import datas.MapData;
+import structs.Entity;
 import openfl.Assets;
 
 class Main extends Sprite {
@@ -26,6 +29,8 @@ class Main extends Sprite {
 
 		super ();
 
+        GameObject.tileSize = Tilesheet.TILE_SIZE;
+
         setupMaps();
 
         entityStore = new EntityStore();
@@ -44,12 +49,14 @@ class Main extends Sprite {
         // place hero
         heroEntity = new Entity();
         heroEntity.entityData = entityStore.getEntityData(heroPortal.id);
+        heroEntity.xt = heroPortal.xt;
+        heroEntity.yt = heroPortal.yt;
 
-        map.addEntity(heroEntity.bitmap);
+        map.addChild(heroEntity.bitmap);
     }
 
     public function setupMaps(){
-        heroPortal = new Portal(1, 2, 2);
+        heroPortal = new Portal(EntityStore.CLOTH, 2, 2);
 
         mapData = new MapData();
         mapData.name = "Home";

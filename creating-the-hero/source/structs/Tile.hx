@@ -1,25 +1,25 @@
 package structs;
 
-import displays.TileBitmap;
+import flash.display.Bitmap;
 import datas.TileData;
 
-class Tile {
+class Tile extends GameObject {
 
-    public var tileBitmap:TileBitmap;
+    public var bitmap:Bitmap;
 
     private var _tileData:TileData;
 
-    public var id(get, null):Int;
     public var tileData(get, set):TileData;
 
     public function new() {
-        tileBitmap = new TileBitmap();
+        super();
+        bitmap = new Bitmap();
     }
 
     public function set_tileData(tileData:TileData) {
         _tileData = tileData;
 
-        tileBitmap.bitmapData = tileData.bitmapData;
+        bitmap.bitmapData = tileData.bitmapData;
 
         return _tileData;
     }
@@ -28,8 +28,12 @@ class Tile {
         return _tileData;
     }
 
-    public function get_id():Int {
-        return _tileData.id;
+    override private function yChange(value:Float){
+        bitmap.y = value;
+    }
+
+    override private function xChange(value:Float){
+        bitmap.x = value;
     }
 
 }

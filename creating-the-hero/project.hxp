@@ -6,8 +6,8 @@ class Project extends HXProject {
 
         super ();
 
-        meta.title = "Creating The Map";
-        meta.packageName = "me.bendangelo.creatingTheMap";
+        meta.title = "RPG Tutorials";
+        meta.packageName = "me.bendangelo.rpgTutorials";
         meta.version = "1.0.0";
 
         app.main = "Main";

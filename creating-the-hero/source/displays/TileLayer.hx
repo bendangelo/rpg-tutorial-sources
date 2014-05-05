@@ -1,6 +1,6 @@
 package displays;
 
-import structs.Tilesheet;
+import stores.Tilesheet;
 import structs.Tile;
 import flash.display.Sprite;
 import datas.TileData;
@@ -26,8 +26,8 @@ class TileLayer extends Sprite {
 
             for(x in 0...map[0].length){
                 var tile:Tile = new Tile();
-                tile.bitmap.x = x * Tilesheet.TILE_SIZE;
-                tile.bitmap.y = y * Tilesheet.TILE_SIZE;
+                tile.xt = x;
+                tile.yt = y;
 
                 _tiles[y][x] = tile;
 
