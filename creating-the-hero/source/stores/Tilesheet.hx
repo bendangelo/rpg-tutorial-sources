@@ -41,8 +41,8 @@ class Tilesheet {
         }
     }
 
-    public function getTileData(value:Int):TileData {
-        return _tileDatas[value];
+    public function getTileData(id:Int):TileData {
+        return _tileDatas[id];
     }
 
 }

@@ -9,7 +9,7 @@ import structs.GameObject;
 
 class EntityStore {
 
-    public static CLOTH:Int = 1;
+    public static var CLOTH:Int = 1;
 
     private var _entityDatas:Array<EntityData>;
 
@@ -36,8 +36,8 @@ class EntityStore {
         _entityDatas.push(cloth);
     }
 
-    public function getEntityData(value:Int):EntityData {
-        return _entityDatas[value];
+    public function getEntityData(id:Int):EntityData {
+        return _entityDatas[id];
     }
 
 }
