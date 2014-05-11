@@ -1,12 +1,14 @@
 package;
 
 import flash.display.BitmapData;
+import flash.events.KeyboardEvent;
+import structs.KeyState;
 import flash.display.Sprite;
 import structs.GameObject;
 import stores.Tilesheet;
 import stores.EntityStore;
 import datas.Portal;
-import displays.Map;
+import flash.events.Event;
 import datas.MapData;
 import structs.Entity;
 import openfl.Assets;
@@ -25,7 +27,6 @@ class Main extends Sprite {
     private var _game:Game;
 
 	public function new () {
-
 		super ();
 
         GameObject.tileSize = Tilesheet.TILE_SIZE;
@@ -43,7 +44,11 @@ class Main extends Sprite {
         _game = new Game(_entityStore, _tilesheet);
         _game.load(_gameData);
 
-        addChild(_game.map);
+        stage.addEventListener(Event.ENTER_FRAME, this.onEnterFrame);
+        stage.addEventListener(KeyboardEvent.KEY_DOWN, this.onKeyDown);
+        stage.addEventListener(KeyboardEvent.KEY_UP, this.onKeyUp);
+
+        addChild(_game.mapView);
     }
 
     public function setupGameData(){
@@ -79,5 +84,17 @@ class Main extends Sprite {
         mapData.topMap[5] = [0, 0, 0, 0, 0, 0, 0, 0];
 
         _gameData.startingMap = mapData;
+    }
+
+    public function onEnterFrame(e:Event) {
+        _game.update();
+    }
+
+    public function onKeyUp(e:KeyboardEvent) {
+        KeyState.keysDown.set(e.keyCode, false);
+    }
+
+    public function onKeyDown(e:KeyboardEvent) {
+        KeyState.keysDown.set(e.keyCode, true);
     }
 }

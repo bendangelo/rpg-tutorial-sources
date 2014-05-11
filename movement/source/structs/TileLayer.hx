@@ -1,11 +1,10 @@
-package displays;
+package structs;
 
 import stores.Tilesheet;
 import structs.Tile;
-import flash.display.Sprite;
 import datas.TileData;
 
-class TileLayer extends Sprite {
+class TileLayer {
 
     private var _tilesheet:Tilesheet;
 
@@ -14,7 +13,6 @@ class TileLayer extends Sprite {
     public var tilesheet(get, never):Tilesheet;
 
     public function new(tilesheet:Tilesheet){
-        super();
         _tilesheet = tilesheet;
     }
 
@@ -32,8 +30,14 @@ class TileLayer extends Sprite {
                 _tiles[y][x] = tile;
 
                 setTile(x, y, map[y][x]);
+            }
+        }
+    }
 
-                addChild(tile.bitmap);
+    public function forEachTile(callback:Tile->Void) {
+        for(y in 0..._tiles.length){
+            for(x in 0..._tiles[0].length){
+                callback(getTile(x, y));
             }
         }
     }

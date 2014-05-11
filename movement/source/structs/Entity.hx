@@ -3,6 +3,7 @@ package structs;
 import flash.display.Bitmap;
 import datas.EntityData;
 import components.InputComponent;
+import components.MoveComponent;
 
 class Entity extends GameObject {
 
@@ -10,23 +11,24 @@ class Entity extends GameObject {
 
     private var _entityData:EntityData;
 
-    public var entityData(get, set):EntityData;
-    public var game(get, null):Game;
-
-    public var moving:Boolean;
-
-    private var _game:Game;
+    public var entityData(default, set):EntityData;
 
     private var _input:InputComponent;
+    private var _move:MoveComponent;
 
-    public function new(game:Game, input:InputComponent){
+    public function new(input:InputComponent, move:MoveComponent){
         super();
         bitmap = new Bitmap();
         _input = input;
+        _input.gameObject = this;
+
+        _move = move;
+        _move.gameObject = this;
     }
-    
+
     public function update(){
-        _input.update(this);
+        _input.update();
+        _move.update();
     }
 
     public function set_entityData(entityData:EntityData) {
@@ -35,14 +37,6 @@ class Entity extends GameObject {
         bitmap.bitmapData = entityData.bitmapData;
 
         return _entityData;
-    }
-
-    public function get_entityData():EntityData {
-        return _entityData;
-    }
-
-    public function get_game():Game {
-        return _game;
     }
 
     override private function yChange(value:Float){

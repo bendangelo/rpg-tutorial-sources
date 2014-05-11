@@ -1,20 +1,21 @@
 package structs;
 
+import events.SimpleEvent;
 import stores.Tilesheet;
 import stores.EntityStore;
-import displays.Map;
+import displays.MapView;
 import datas.GameData;
 import datas.Portal;
+import components.InputComponent;
+import components.MoveComponent;
 
 class Game {
-    
-    private var _map:Map;
+
     private var _gameData:GameData;
 
-    private var _hero:Entity;
-
-    public var map(get, null):Map;
-    public var hero(get, null):Entity;
+    public var map(default, null):Map;
+    public var mapView(default, null):MapView;
+    public var hero(default, null):Entity;
 
     public var entityStore:EntityStore;
     public var tilesheet:Tilesheet;
@@ -22,29 +23,58 @@ class Game {
     public function new(entityStore:EntityStore, tilesheet:Tilesheet){
         this.entityStore = entityStore;
         this.tilesheet = tilesheet;
+
+        map = new Map(this, tilesheet, entityStore);
+
+        mapView = new MapView();
+        mapView.init();
     }
 
     public function load(gameData:GameData){
         _gameData = gameData;
 
-        _map = new Map(tilesheet, entityStore);
-        _map.load(_gameData.startingMap);
+        map.addEventListener(Map.ADD_ENTITY, onAddEntity);
+        map.addEventListener(Map.REMOVE_ENTITY, onRemoveEntity);
+        map.load(_gameData.startingMap);
+
+        // add tiles to mapView
+        map.bottomLayer.forEachTile(addBottomTiles);
+        map.middleLayer.forEachTile(addMiddleTiles);
+        map.topLayer.forEachTile(addTopTiles);
 
         // place hero
         var heroPortal:Portal = _gameData.heroPortal;
-        _hero = new Entity();
-        _hero.entityData = entityStore.getEntityData(heroPortal.id);
-        _hero.xt = heroPortal.xt;
-        _hero.yt = heroPortal.yt;
 
-        _map.entityLayer.addChild(_hero.bitmap);
-    }
-    
-    public function get_map():Map {
-        return _map;
+        var moveComponent:MoveComponent = new MoveComponent();
+        hero = new Entity(new InputComponent(moveComponent), moveComponent);
+        hero.entityData = entityStore.getEntityData(heroPortal.id);
+        hero.xt = heroPortal.xt;
+        hero.yt = heroPortal.yt;
+
+        map.addEntity(hero);
     }
 
-    public function get_hero():Entity {
-        return _hero;
+    public function update() {
+        hero.update();
+    }
+
+    public function onAddEntity(e:SimpleEvent<Entity>){
+        mapView.entityLayer.addChild(e.data.bitmap);
+    }
+
+    public function onRemoveEntity(e:SimpleEvent<Entity>){
+        mapView.entityLayer.removeChild(e.data.bitmap);
+    }
+
+    public function addBottomTiles(tile:Tile){
+        mapView.bottomLayer.addChild(tile.bitmap);
+    }
+
+    public function addTopTiles(tile:Tile){
+        mapView.topLayer.addChild(tile.bitmap);
+    }
+
+    public function addMiddleTiles(tile:Tile){
+        mapView.middleLayer.addChild(tile.bitmap);
     }
 }

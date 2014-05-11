@@ -9,6 +9,8 @@ class Tile extends GameObject {
 
     private var _tileData:TileData;
 
+    public var walkable:Bool;
+
     public var tileData(get, set):TileData;
 
     public function new() {
@@ -19,6 +21,7 @@ class Tile extends GameObject {
     public function set_tileData(tileData:TileData) {
         _tileData = tileData;
 
+        walkable = tileData.walkable;
         bitmap.bitmapData = tileData.bitmapData;
 
         return _tileData;

@@ -8,46 +8,31 @@ class GameObject {
     public var xt(get, set):Int;
     public var yt(get, set):Int;
 
-    public var x(get, set):Float;
-    public var y(get, set):Float;
+    public var x(default, set):Float;
+    public var y(default, set):Float;
 
-    public var id(get, null):Float;
+    public var id(default, null):Float;
 
-    private var _x:Float;
-    private var _y:Float;
-
-    private var _id:Int;
+    public var map:Map;
 
     public function new(){
-        _id = ++idCount;
+        id = ++idCount;
     }
 
-    public function get_id():Int {
-        return _id;
-    }
-
-    public function set_x(value:Float) {
-        _x = value;
-        xChange(_x);
-        return _x;
+    public function set_x(value:Float):Float {
+        x = value;
+        xChange(x);
+        return x;
     }
 
     private function xChange(value:Float){
 
     }
 
-    public function get_x():Float {
-        return _x;
-    }
-
-    public function get_y():Float {
-        return _y;
-    }
-
-    public function set_y(value:Float) {
-        _y = value;
-        yChange(_y);
-        return _y;
+    public function set_y(value:Float):Float {
+        y = value;
+        yChange(y);
+        return y;
     }
 
     private function yChange(value:Float){
@@ -70,6 +55,10 @@ class GameObject {
 
     public function get_yt():Int {
         return Math.floor(y / tileSize);
+    }
+
+    public function isOnTile():Bool {
+        return x % tileSize == 0 && y % tileSize == 0;
     }
 
 }
