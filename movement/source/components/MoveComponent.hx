@@ -38,35 +38,55 @@ class MoveComponent extends Component {
         }
     }
 
-    public function moveUp() {
+    public function moveUp():Bool {
         if(isMoving){
             throw "Already moving";
         }
-        direction = Direction.NORTH;
-        isMoving = true;
+
+        if(map.isWalkable(gameObject.xt, gameObject.yt - 1)){
+            direction = Direction.NORTH;
+            isMoving = true;
+            return true;
+        }
+
+        return false;
     }
 
-    public function moveDown() {
+    public function moveDown():Bool {
         if(isMoving){
             throw "Already moving";
         }
-        direction = Direction.SOUTH;
-        isMoving = true;
+
+        if(map.isWalkable(gameObject.xt, gameObject.yt + 1)){
+            direction = Direction.SOUTH;
+            isMoving = true;
+            return true;
+        }
+
+        return false;
     }
 
-    public function moveRight() {
+    public function moveRight():Bool {
         if(isMoving){
             throw "Already moving";
         }
-        direction = Direction.EAST;
-        isMoving = true;
+        if(map.isWalkable(gameObject.xt + 1, gameObject.yt)){
+            direction = Direction.EAST;
+            isMoving = true;
+            return true;
+        }
+        return false;
     }
 
-    public function moveLeft() {
+    public function moveLeft():Bool {
         if(isMoving){
             throw "Already moving";
         }
-        direction = Direction.WEST;
-        isMoving = true;
+        if(map.isWalkable(gameObject.xt - 1, gameObject.yt)){
+            direction = Direction.WEST;
+            isMoving = true;
+            return true;
+        }
+        return false;
     }
 }

@@ -39,6 +39,12 @@ class Tilesheet {
             _tileDatas.push(tileData);
           }
         }
+
+        _tileDatas[16].walkable = false;
+        _tileDatas[32].walkable = false;
+        _tileDatas[64].walkable = false;
+        _tileDatas[65].walkable = false;
+        _tileDatas[80].walkable = false;
     }
 
     public function getTileData(id:Int):TileData {

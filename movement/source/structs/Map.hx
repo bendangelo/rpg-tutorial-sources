@@ -52,6 +52,9 @@ class Map extends EventDispatcher {
     }
 
     public function isWalkable(xt:Int, yt:Int):Bool {
+        if(!isWithin(xt, yt)){
+            return false;
+        }
         return bottomLayer.getTile(xt, yt).walkable && middleLayer.getTile(xt, yt).walkable;
     }
 

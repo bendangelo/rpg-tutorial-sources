@@ -11,7 +11,7 @@ class GameObject {
     public var x(default, set):Float;
     public var y(default, set):Float;
 
-    public var id(default, null):Float;
+    public var id(default, null):Int;
 
     public var map:Map;
 
