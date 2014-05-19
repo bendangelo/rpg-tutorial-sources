@@ -1,0 +1,27 @@
+import project.*;
+
+class Project extends HXProject {
+
+    public function new () {
+
+        super ();
+
+        meta.title = "RPG Tutorials";
+        meta.packageName = "me.bendangelo.rpgTutorials";
+        meta.version = "1.0.0";
+
+        app.main = "Main";
+        app.path = "export";
+        app.file = "rpgTutorials";
+        window[0].width = 320;
+        window[0].height = 240;
+
+        sources.push("source");
+
+        haxelibs.push(new Haxelib("openfl"));
+        haxelibs.push(new Haxelib("spritesheet"));
+
+        includeAssets ("../assets", "assets", [ "*" ]);
+    }
+
+}
