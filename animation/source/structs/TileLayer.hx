@@ -12,12 +12,15 @@ class TileLayer {
 
     public var tilesheet(get, never):Tilesheet;
 
+    private var _updateTiles:Array<Tile>;
+
     public function new(tilesheet:Tilesheet){
         _tilesheet = tilesheet;
     }
 
     public function setMap(map:Array<Array<Int>>) {
         _tiles = new Array<Array<Tile>>();
+        _updateTiles = new Array<Tile>();
 
         for(y in 0...map.length){
             _tiles[y] = new Array<Tile>();
@@ -34,6 +37,12 @@ class TileLayer {
         }
     }
 
+    public function update(time:Int){
+        for(t in _updateTiles){
+            t.update(time);
+        }
+    }
+
     public function forEachTile(callback:Tile->Void) {
         for(y in 0..._tiles.length){
             for(x in 0..._tiles[0].length){
@@ -45,7 +54,28 @@ class TileLayer {
     public function setTile(x:Int, y:Int, value:Int) {
         var tileData:TileData = _tilesheet.getTileData(value);
 
-        getTile(x, y).tileData = tileData;
+        var tile = getTile(x, y);
+        tile.tileData = tileData;
+
+        if(tile.needsUpdate){
+            addToUpdates(tile);
+        } else {
+            removeFromUpdates(tile);
+        }
+    }
+
+    private function addToUpdates(tile:Tile) {
+        if(_updateTiles.indexOf(tile) == -1){
+            _updateTiles.push(tile);
+        }
+    }
+
+    private function removeFromUpdates(tile:Tile){
+        for(i in 0..._updateTiles.length){
+            if(_updateTiles[i] == tile){
+                _updateTiles.splice(i, 1);
+            }
+        }
     }
 
     public function getTile(x:Int, y:Int):Tile {

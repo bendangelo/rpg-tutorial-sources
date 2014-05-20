@@ -72,7 +72,7 @@ class Main extends Sprite {
 
         mapData.middleMap = new Array<Array<Int>>();
         mapData.middleMap[0] = [0, 67, 0, 0, 0, 51, 0, 0];
-        mapData.middleMap[1] = [0, 0, 0, 0, 0, 0, 0, 0];
+        mapData.middleMap[1] = [0, 0, 0, 0, 0, 52, 0, 0];
         mapData.middleMap[2] = [0, 16, 0, 80, 50, 0, 0, 0];
         mapData.middleMap[3] = [0, 0, 67, 0, 0, 66, 0, 0];
         mapData.middleMap[4] = [0, 64, 65, 0, 0, 0, 0, 0];

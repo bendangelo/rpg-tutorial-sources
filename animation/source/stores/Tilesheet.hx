@@ -1,6 +1,9 @@
 package stores;
 
 import datas.TileData;
+import spritesheet.data.BehaviorData;
+import spritesheet.importers.BitmapImporter;
+import spritesheet.Spritesheet;
 import flash.display.BitmapData;
 import flash.geom.Rectangle;
 import flash.geom.Point;
@@ -11,6 +14,8 @@ class Tilesheet {
 
     public var tilesheetData:BitmapData;
 
+    public var spritesheet:Spritesheet;
+
     private var _tileDatas:Array<TileData>;
 
     public function new() {
@@ -19,22 +24,19 @@ class Tilesheet {
 
     public function init(tilesheetData:BitmapData){
         _tileDatas = new Array<TileData>();
-        this.tilesheetData = tilesheetData;
 
         var totalXTiles:Int = Math.floor(tilesheetData.width / TILE_SIZE);
         var totalYTiles:Int = Math.floor(tilesheetData.height / TILE_SIZE);
+
+        spritesheet = BitmapImporter.create(tilesheetData, totalXTiles, totalYTiles, TILE_SIZE, TILE_SIZE);
+        this.tilesheetData = tilesheetData;
 
         for(y in 0...totalYTiles){
           for(x in 0...totalXTiles){
             var tileData:TileData = new TileData();
             tileData.id = _tileDatas.length;
 
-            tileData.bitmapData = new BitmapData(TILE_SIZE, TILE_SIZE);
-
-            var rect:Rectangle = new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-            var point:Point = new Point(0, 0);
-
-            tileData.bitmapData.copyPixels(tilesheetData, rect, point);
+            tileData.spritesheet = spritesheet;
 
             _tileDatas.push(tileData);
           }
@@ -45,6 +47,10 @@ class Tilesheet {
         _tileDatas[64].walkable = false;
         _tileDatas[65].walkable = false;
         _tileDatas[80].walkable = false;
+
+        _tileDatas[52].animated = true;
+        _tileDatas[52].walkable = false;
+        spritesheet.addBehavior(new BehaviorData("52", [52, 53, 54], true, 5));
     }
 
     public function getTileData(id:Int):TileData {

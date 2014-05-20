@@ -48,9 +48,8 @@ class Game {
 
         var moveComponent:MoveComponent = new MoveComponent();
         var graphicsComponent:GraphicsComponent = new GraphicsComponent();
-        hero = new Entity(new InputComponent(moveComponent), moveComponent, graphicsComponent);
+        hero = new Entity(new InputComponent(), moveComponent, graphicsComponent);
         hero.entityData = entityStore.getEntityData(heroPortal.id);
-        hero.sprite.showBehavior("idle_down");
         hero.xt = heroPortal.xt;
         hero.yt = heroPortal.yt;
 
@@ -58,26 +57,26 @@ class Game {
     }
 
     public function update(time:Int) {
-        hero.update(time);
+        map.update(time);
     }
 
     public function onAddEntity(e:SimpleEvent<Entity>){
-        mapView.entityLayer.addChild(e.data.sprite);
+        mapView.entityLayer.addChild(e.data.graphics.sprite);
     }
 
     public function onRemoveEntity(e:SimpleEvent<Entity>){
-        mapView.entityLayer.removeChild(e.data.sprite);
+        mapView.entityLayer.removeChild(e.data.graphics.sprite);
     }
 
     public function addBottomTiles(tile:Tile){
-        mapView.bottomLayer.addChild(tile.bitmap);
+        mapView.bottomLayer.addChild(tile.sprite);
     }
 
     public function addTopTiles(tile:Tile){
-        mapView.topLayer.addChild(tile.bitmap);
+        mapView.topLayer.addChild(tile.sprite);
     }
 
     public function addMiddleTiles(tile:Tile){
-        mapView.middleLayer.addChild(tile.bitmap);
+        mapView.middleLayer.addChild(tile.sprite);
     }
 }

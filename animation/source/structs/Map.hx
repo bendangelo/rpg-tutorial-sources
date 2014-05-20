@@ -22,7 +22,7 @@ class Map extends EventDispatcher {
     public var width(default, null):Int;
     public var height(default, null):Int;
 
-    public var entities(default, null):List<Entity>;
+    public var entities(default, null):Array<Entity>;
 
     public function new(game:Game, tilesheet:Tilesheet, entityStore:EntityStore){
         super();
@@ -32,7 +32,7 @@ class Map extends EventDispatcher {
     }
 
     public function load(mapData:MapData) {
-        entities = new List<Entity>();
+        entities = new Array<Entity>();
 
         width = mapData.bottomMap[0].length;
         height = mapData.bottomMap.length;
@@ -58,6 +58,16 @@ class Map extends EventDispatcher {
         return bottomLayer.getTile(xt, yt).walkable && middleLayer.getTile(xt, yt).walkable;
     }
 
+    public function update(time:Int){
+        bottomLayer.update(time);
+        middleLayer.update(time);
+        topLayer.update(time);
+
+        for(i in 0...entities.length){
+            entities[i].update(time);
+        }
+    }
+
     public function addEntity(entity:Entity){
         entity.map = this;
         entities.push(entity);
@@ -67,7 +77,15 @@ class Map extends EventDispatcher {
 
     public function removeEntity(entity:Entity):Bool{
         entity.map = null;
-        var removed =  entities.remove(entity);
+        var removed:Bool = false;
+
+        for(i in 0...entities.length){
+            if(entities[i] == entity){
+                entities.splice(i, 1);
+                removed = true;
+                break;
+            }
+        }
 
         if(removed){
             dispatchEvent(new SimpleEvent<Entity>(REMOVE_ENTITY, entity));

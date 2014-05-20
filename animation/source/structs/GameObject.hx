@@ -1,5 +1,8 @@
 package structs;
 
+import components.InputComponent;
+import components.GraphicsComponent;
+import components.MoveComponent;
 import structs.Orientation;
 
 class GameObject {
@@ -19,33 +22,37 @@ class GameObject {
 
     public var map:Map;
 
+    public var input(default, set):InputComponent;
+    public var move(default, set):MoveComponent;
+    public var graphics(default, set):GraphicsComponent;
+
     public function new(){
         id = ++idCount;
         orientation = Orientation.DOWN;
     }
 
     public function update(time:Int) {
+        if(input != null){
+            input.update(time);
+        }
 
+        if(move != null){
+            move.update(time);
+        }
+
+        if(graphics != null){
+            graphics.update(time);
+        }
     }
 
     public function set_x(value:Float):Float {
         x = value;
-        xChange(x);
         return x;
-    }
-
-    private function xChange(value:Float){
-
     }
 
     public function set_y(value:Float):Float {
         y = value;
-        yChange(y);
         return y;
-    }
-
-    private function yChange(value:Float){
-
     }
 
     public function set_xt(value:Int) {
@@ -70,4 +77,21 @@ class GameObject {
         return x % tileSize == 0 && y % tileSize == 0;
     }
 
+    public function set_input(value:InputComponent):InputComponent {
+        input = value;
+        input.gameObject = this;
+        return input;
+    }
+
+    public function set_move(value:MoveComponent):MoveComponent {
+        move = value;
+        move.gameObject = this;
+        return move;
+    }
+
+    public function set_graphics(value:GraphicsComponent):GraphicsComponent {
+        graphics = value;
+        graphics.gameObject = this;
+        return graphics;
+    }
 }

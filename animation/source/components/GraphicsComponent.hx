@@ -1,6 +1,7 @@
 package components;
 
 import structs.Orientation;
+import structs.GameObject;
 import spritesheet.AnimatedSprite;
 
 class GraphicsComponent extends Component {
@@ -9,11 +10,12 @@ class GraphicsComponent extends Component {
 
     public function new(){
         super();
+        sprite = new AnimatedSprite(null);
     }
 
-    public function update(time:Int){
+    override public function update(time:Int){
         if(gameObject.orientation == Orientation.LEFT){
-            if(_move.isMoving){
+            if(gameObject.move.isMoving){
                 sprite.showBehavior("move_left", false);
             } else {
                 sprite.showBehavior("idle_left", false);
@@ -21,7 +23,7 @@ class GraphicsComponent extends Component {
         }
 
         if(gameObject.orientation == Orientation.DOWN){
-            if(_move.isMoving){
+            if(gameObject.move.isMoving){
                 sprite.showBehavior("move_down", false);
             } else {
                 sprite.showBehavior("idle_down", false);
@@ -29,7 +31,7 @@ class GraphicsComponent extends Component {
         }
 
         if(gameObject.orientation == Orientation.UP){
-            if(_move.isMoving){
+            if(gameObject.move.isMoving){
                 sprite.showBehavior("move_up", false);
             } else {
                 sprite.showBehavior("idle_up", false);
@@ -37,7 +39,7 @@ class GraphicsComponent extends Component {
         }
 
         if(gameObject.orientation == Orientation.RIGHT){
-            if(_move.isMoving){
+            if(gameObject.move.isMoving){
                 sprite.showBehavior("move_right", false);
             } else {
                 sprite.showBehavior("idle_right", false);
@@ -45,7 +47,7 @@ class GraphicsComponent extends Component {
         }
 
         sprite.x = gameObject.x;
-        sprite.y = gameObject.y;
+        sprite.y = gameObject.y - sprite.height + GameObject.tileSize;
         sprite.update(time);
     }
 }

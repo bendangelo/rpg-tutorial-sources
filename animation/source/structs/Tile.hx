@@ -2,41 +2,45 @@ package structs;
 
 import flash.display.Bitmap;
 import datas.TileData;
+import spritesheet.AnimatedSprite;
 
 class Tile extends GameObject {
 
-    public var bitmap:Bitmap;
-
-    private var _tileData:TileData;
+    public var sprite:AnimatedSprite;
 
     public var walkable:Bool;
 
-    public var tileData(get, set):TileData;
+    public var needsUpdate(get, null):Bool;
+
+    public var tileData(default, set):TileData;
 
     public function new() {
         super();
-        bitmap = new Bitmap();
+        sprite = new AnimatedSprite(null);
+    }
+
+    override public function update(time:Int){
+        sprite.update(time);
+    }
+
+    public function get_needsUpdate():Bool{
+        return tileData.animated;
     }
 
     public function set_tileData(tileData:TileData) {
-        _tileData = tileData;
+        this.tileData = tileData;
 
         walkable = tileData.walkable;
-        bitmap.bitmapData = tileData.bitmapData;
+        sprite.bitmap.bitmapData = tileData.bitmapData;
+        sprite.x = x;
+        sprite.y = y;
 
-        return _tileData;
-    }
+        if(tileData.animated){
+            sprite.spritesheet = tileData.spritesheet;
+            sprite.showBehavior(Std.string(tileData.id));
+        }
 
-    public function get_tileData() {
-        return _tileData;
-    }
-
-    override private function yChange(value:Float){
-        bitmap.y = value;
-    }
-
-    override private function xChange(value:Float){
-        bitmap.x = value;
+        return tileData;
     }
 
 }

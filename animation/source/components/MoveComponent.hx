@@ -18,7 +18,7 @@ class MoveComponent extends Component {
         speed = Math.floor(GameObject.tileSize / 7);
     }
 
-    public function update(){
+    override public function update(time:Int){
         if(isMoving){
             switch(direction){
                 case Orientation.DOWN:
@@ -70,6 +70,7 @@ class MoveComponent extends Component {
         if(isMoving){
             throw "Already moving";
         }
+
         if(map.isWalkable(gameObject.xt + 1, gameObject.yt)){
             direction = Orientation.RIGHT;
             isMoving = true;
@@ -82,6 +83,7 @@ class MoveComponent extends Component {
         if(isMoving){
             throw "Already moving";
         }
+
         if(map.isWalkable(gameObject.xt - 1, gameObject.yt)){
             direction = Orientation.LEFT;
             isMoving = true;

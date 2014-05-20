@@ -15,6 +15,10 @@ class Component {
 
     }
 
+    public function update(time:Int){
+
+    }
+
     private function get_map():Map {
         return gameObject.map;
     }
